@@ -65,7 +65,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                love.madohomu.madomagiarchive_fe_java.madomagiarchivefejava/love.madohomu.madomagiarchive_fe_java.HelloApplication
+                                love.madohomu.madomagiarchive_fe_java.madomagiarchivefejava/love.madohomu.madomagiarchive_fe_java.MainApplication
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
