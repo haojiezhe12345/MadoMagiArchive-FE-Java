@@ -8,7 +8,8 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="love.madohomu.madomagiarchive_fe_java.views.ImagesController"
-            prefHeight="400.0" prefWidth="600.0">
+            fx:controller="love.madohomu.madomagiarchive_fe_java.views.FileViewerController"
+            prefWidth="600.0"
+            prefHeight="400.0">
 
 </AnchorPane>

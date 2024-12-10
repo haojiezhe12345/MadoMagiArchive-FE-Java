@@ -1,37 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="CENTER" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="love.madohomu.madomagiarchive_fe_java.MainController">
+<VBox xmlns="http://javafx.com/javafx/17.0.2-ea"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="love.madohomu.madomagiarchive_fe_java.MainController"
+      stylesheets="@styles/main.css"
+      styleClass="root">
 
     <MenuBar>
         <Menu text="File">
-            <MenuItem text="Close" />
+            <MenuItem text="Select all" onAction="#selectAllFiles"/>
+            <MenuItem text="Deselect all" onAction="#deselectFiles"/>
+            <SeparatorMenuItem/>
+            <MenuItem text="Download selected"/>
+            <MenuItem text="Upload files..."/>
+            <SeparatorMenuItem/>
+            <MenuItem onAction="#exit" text="Exit"/>
         </Menu>
         <Menu text="Edit">
-            <MenuItem text="Delete" />
+            <MenuItem text="Edit details"/>
+            <MenuItem text="Delete selected" onAction="#showDeleteConfirmation"/>
+        </Menu>
+        <Menu text="Account">
+            <MenuItem text="Log in"/>
         </Menu>
         <Menu text="Help">
-            <MenuItem text="About" />
+            <MenuItem text="Visit website" onAction="#gotoWebsite"/>
+            <MenuItem text="About" onAction="#showAbout"/>
         </Menu>
     </MenuBar>
 
-    <VBox spacing="8.0" VBox.vgrow="ALWAYS">
-        <padding>
-            <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
-        </padding>
-
-        <HBox spacing="8.0">
-            <Button onAction="#onFilesRefreshButtonClicked" text="Refresh" />
-            <Pane HBox.hgrow="ALWAYS" />
-            <TextField fx:id="mainSearchInput" />
+    <VBox styleClass="main" VBox.vgrow="ALWAYS">
+        <HBox styleClass="actionBar">
+            <Button onAction="#reloadFiles" text="Refresh"/>
+            <Pane HBox.hgrow="ALWAYS"/>
+            <TextField fx:id="mainSearchInput"/>
         </HBox>
 
-        <ScrollPane fx:id="fileItemScrollContainer" VBox.vgrow="ALWAYS">
-            <FlowPane fx:id="fileItemContainer" hgap="8.0" vgap="8.0" />
-        </ScrollPane>
-    </VBox>
+        <ScrollPane fx:id="fileItemScrollContainer" VBox.vgrow="ALWAYS" onMouseClicked="#onFileItemScrollContainerClick">
 
+            <FlowPane fx:id="fileItemContainer">
+                <!-- Example image, `FileItemComponent` is used instead during execution -->
+                <HBox styleClass="fileItem">
+                    <ImageView>
+                        <Image url="https://haojiezhe12345.top:82/madohomu/archive/api/files/221/thumb"/>
+                    </ImageView>
+                </HBox>
+            </FlowPane>
+
+            <contextMenu>
+                <ContextMenu fx:id="fileItemContentMenu">
+                    <items>
+                        <MenuItem text="View"/>
+                        <MenuItem text="Edit details"/>
+                        <MenuItem text="Download"/>
+                        <MenuItem text="Delete" onAction="#showDeleteConfirmation"/>
+                    </items>
+                </ContextMenu>
+
+                <ContextMenu fx:id="fileItemBackgroundContentMenu">
+                    <items>
+                        <MenuItem text="Select all" onAction="#selectAllFiles"/>
+                        <MenuItem text="Refresh" onAction="#reloadFiles"/>
+                        <MenuItem text="Upload files"/>
+                    </items>
+                </ContextMenu>
+            </contextMenu>
+
+        </ScrollPane>
+
+    </VBox>
 </VBox>
