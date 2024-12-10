@@ -8,5 +8,7 @@ module love.madohomu.madomagiarchive_fe_java.madomagiarchivefejava {
     requires annotations;
 
     opens love.madohomu.madomagiarchive_fe_java to javafx.fxml;
+    opens love.madohomu.madomagiarchive_fe_java.models to com.google.gson;
+
     exports love.madohomu.madomagiarchive_fe_java;
 }

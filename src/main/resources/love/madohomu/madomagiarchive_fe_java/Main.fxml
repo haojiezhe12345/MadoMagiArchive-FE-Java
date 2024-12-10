@@ -4,37 +4,34 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="CENTER" prefHeight="600.0" prefWidth="800.0" spacing="8.0" xmlns="http://javafx.com/javafx/17.0.2-ea"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="love.madohomu.madomagiarchive_fe_java.MainController">
-    <padding>
-        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0"/>
-    </padding>
+<VBox alignment="CENTER" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="love.madohomu.madomagiarchive_fe_java.MainController">
 
-    <HBox>
-        <TextField fx:id="mainSearchInput"/>
-        <Pane HBox.hgrow="ALWAYS"/>
-        <Button fx:id="userInfoBtn"/>
-    </HBox>
+    <MenuBar>
+        <Menu text="File">
+            <MenuItem text="Close" />
+        </Menu>
+        <Menu text="Edit">
+            <MenuItem text="Delete" />
+        </Menu>
+        <Menu text="Help">
+            <MenuItem text="About" />
+        </Menu>
+    </MenuBar>
 
-    <TabPane side="BOTTOM" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
-        <Tab text="Home">
-        </Tab>
+    <VBox spacing="8.0" VBox.vgrow="ALWAYS">
+        <padding>
+            <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+        </padding>
 
-        <Tab text="Files">
-            <VBox>
-                <HBox spacing="8.0">
-                    <Button text="Edit"/>
-                    <Button text="Delete"/>
-                    <Pane HBox.hgrow="ALWAYS"/>
-                </HBox>
-                <FlowPane VBox.vgrow="ALWAYS"/>
-            </VBox>
-        </Tab>
+        <HBox spacing="8.0">
+            <Button onAction="#onFilesRefreshButtonClicked" text="Refresh" />
+            <Pane HBox.hgrow="ALWAYS" />
+            <TextField fx:id="mainSearchInput" />
+        </HBox>
 
-        <Tab text="Explore">
-        </Tab>
+        <ScrollPane fx:id="fileItemScrollContainer" VBox.vgrow="ALWAYS">
+            <FlowPane fx:id="fileItemContainer" hgap="8.0" vgap="8.0" />
+        </ScrollPane>
+    </VBox>
 
-        <Tab text="Settings">
-        </Tab>
-    </TabPane>
 </VBox>

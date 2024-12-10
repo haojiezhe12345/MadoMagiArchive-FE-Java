@@ -4,18 +4,18 @@ import java.util.Date;
 import java.util.List;
 
 public class FileItem {
-    public int Id;
-    public String Type;
-    public Boolean R18;
-    public String Title;
-    public String Description;
-    public String Source;
-    public int Width;
-    public int Height;
-    public double Duration;
-    public String File;
-    public long Size;
-    public Date DateCreated;
-    public Date DateModified;
-    public List<Tag> Tags;
+    public int id;
+    public String type;
+    public Boolean r18;
+    public String title;
+    public String description;
+    public String source;
+    public int width;
+    public int height;
+    public double duration;
+    public String file;
+    public long size;
+    public Date dateCreated;
+    public Date dateModified;
+    public List<Tag> tags;
 }
