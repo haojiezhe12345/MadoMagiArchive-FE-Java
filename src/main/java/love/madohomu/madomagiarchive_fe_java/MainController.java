@@ -4,8 +4,9 @@ import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.skin.ScrollPaneSkin;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
@@ -26,6 +27,8 @@ public class MainController {
     private ContextMenu fileItemContentMenu;
     @FXML
     private ContextMenu fileItemBackgroundContentMenu;
+    @FXML
+    private CheckBox multiSelect;
     @FXML
     private TextField mainSearchInput;
 
@@ -78,6 +81,23 @@ public class MainController {
         }
     }
 
+    @FXML
+    public void onKeyDown(KeyEvent e) {
+        multiSelect.setSelected(e.isControlDown());
+        if (e.getCode() == KeyCode.DELETE) {
+            showDeleteConfirmation();
+        }
+    }
+
+    @FXML
+    public void onKeyUp(KeyEvent e) {
+        multiSelect.setSelected(e.isControlDown());
+    }
+
+    public boolean getMultiSelect() {
+        return multiSelect.isSelected();
+    }
+
     public List<FileItem> getSelectedFiles() {
         List<FileItem> selectedFiles = new ArrayList<>();
         fileItemComponents.forEach(fileItemComponent -> {
@@ -108,9 +128,15 @@ public class MainController {
 
     @FXML
     public void showDeleteConfirmation() {
+        int count = getSelectedFiles().size();
+        if (count == 0) {
+            return;
+        }
+
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirm delete");
-        alert.setHeaderText("Delete the selected %d file(s)?".formatted(getSelectedFiles().size()));
+        alert.setHeaderText("Delete the selected %d file(s)?".formatted(count));
+
         alert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
                 getSelectedFiles().forEach(x -> {

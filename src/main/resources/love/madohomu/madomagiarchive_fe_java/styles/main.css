@@ -10,6 +10,7 @@
 .actionBar {
     -fx-padding: 8;
     -fx-spacing: 8;
+    -fx-alignment: center;
 }
 
 #fileItemContainer {
@@ -29,5 +30,8 @@
 }
 
 .fileItem.selected {
-    -fx-background-color: rgba(255, 192, 208, 0.85);
+    -fx-background-color: rgba(255, 192, 208, 0.75);
+    -fx-padding: 5;
+    -fx-border-width: 1;
+    -fx-border-color: rgba(220, 150, 170, 0.9);
 }

@@ -75,7 +75,11 @@ public class FileItemComponent {
         if (e.getButton() == MouseButton.SECONDARY && selected) {
             return;
         }
-        parent.deselectFiles();
-        setSelected(true);
+        if (parent.getMultiSelect()) {
+            setSelected(!selected);
+        } else {
+            parent.deselectFiles();
+            setSelected(true);
+        }
     }
 }

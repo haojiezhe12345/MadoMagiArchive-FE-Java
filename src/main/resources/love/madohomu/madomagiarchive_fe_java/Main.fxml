@@ -8,29 +8,31 @@
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="love.madohomu.madomagiarchive_fe_java.MainController"
       stylesheets="@styles/main.css"
-      styleClass="root">
+      styleClass="root"
+      onKeyPressed="#onKeyDown"
+      onKeyReleased="#onKeyUp">
 
     <MenuBar>
-        <Menu text="File">
-            <MenuItem text="Select all" onAction="#selectAllFiles"/>
+        <Menu text="_File">
+            <MenuItem text="Select _all" onAction="#selectAllFiles"/>
             <MenuItem text="Deselect all" onAction="#deselectFiles"/>
             <SeparatorMenuItem/>
-            <MenuItem text="Download selected"/>
-            <MenuItem text="Upload files..." onAction="#uploadFiles"/>
+            <MenuItem text="_Download selected"/>
+            <MenuItem text="_Upload files..." onAction="#uploadFiles"/>
             <SeparatorMenuItem/>
-            <MenuItem onAction="#exit" text="Exit"/>
+            <MenuItem onAction="#exit" text="E_xit"/>
         </Menu>
-        <Menu text="Edit">
-            <MenuItem text="Edit details"/>
-            <MenuItem text="Delete selected" onAction="#showDeleteConfirmation"/>
+        <Menu text="_Edit">
+            <MenuItem text="Edit _details"/>
+            <MenuItem text="_Delete selected" onAction="#showDeleteConfirmation"/>
         </Menu>
-        <Menu text="Account">
-            <MenuItem text="Log in"/>
+        <Menu text="A_ccount">
+            <MenuItem text="_Log in"/>
         </Menu>
-        <Menu text="Help">
-            <MenuItem text="Visit website" onAction="#gotoWebsite"/>
-            <MenuItem text="View on GitHub" onAction="#viewGitHub"/>
-            <MenuItem text="About" onAction="#showAbout"/>
+        <Menu text="_Help">
+            <MenuItem text="Visit _website" onAction="#gotoWebsite"/>
+            <MenuItem text="View on _GitHub" onAction="#viewGitHub"/>
+            <MenuItem text="_About" onAction="#showAbout"/>
         </Menu>
     </MenuBar>
 
@@ -38,6 +40,7 @@
         <HBox styleClass="actionBar">
             <Button onAction="#reloadFiles" text="Refresh"/>
             <Pane HBox.hgrow="ALWAYS"/>
+            <CheckBox text="Multi-select (hold Ctrl)" fx:id="multiSelect"/>
             <TextField fx:id="mainSearchInput"/>
         </HBox>
 
@@ -72,6 +75,7 @@
             </contextMenu>
 
         </ScrollPane>
-
     </VBox>
+
+
 </VBox>
