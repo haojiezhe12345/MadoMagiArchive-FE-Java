@@ -20,6 +20,8 @@
 
 .fileItem {
     -fx-padding: 6;
+    -fx-min-width: 150;
+    -fx-alignment: center;
 }
 
 .fileItem:hover {

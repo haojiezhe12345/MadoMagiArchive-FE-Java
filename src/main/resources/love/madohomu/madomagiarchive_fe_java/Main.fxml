@@ -16,7 +16,7 @@
             <MenuItem text="Deselect all" onAction="#deselectFiles"/>
             <SeparatorMenuItem/>
             <MenuItem text="Download selected"/>
-            <MenuItem text="Upload files..."/>
+            <MenuItem text="Upload files..." onAction="#uploadFiles"/>
             <SeparatorMenuItem/>
             <MenuItem onAction="#exit" text="Exit"/>
         </Menu>
@@ -29,6 +29,7 @@
         </Menu>
         <Menu text="Help">
             <MenuItem text="Visit website" onAction="#gotoWebsite"/>
+            <MenuItem text="View on GitHub" onAction="#viewGitHub"/>
             <MenuItem text="About" onAction="#showAbout"/>
         </Menu>
     </MenuBar>
@@ -65,7 +66,7 @@
                     <items>
                         <MenuItem text="Select all" onAction="#selectAllFiles"/>
                         <MenuItem text="Refresh" onAction="#reloadFiles"/>
-                        <MenuItem text="Upload files"/>
+                        <MenuItem text="Upload files" onAction="#uploadFiles"/>
                     </items>
                 </ContextMenu>
             </contextMenu>
