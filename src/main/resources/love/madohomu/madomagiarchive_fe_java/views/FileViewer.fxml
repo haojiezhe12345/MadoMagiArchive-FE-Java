@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="love.madohomu.madomagiarchive_fe_java.views.FileViewerController"
-            prefWidth="600.0"
-            prefHeight="400.0">
+<HBox fx:id="root" styleClass="fileViewer" stylesheets="@../styles/main.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="love.madohomu.madomagiarchive_fe_java.views.FileViewer">
 
-</AnchorPane>
+    <VBox fx:id="viewer" HBox.hgrow="ALWAYS">
+        <ImageView fx:id="imageViewer" preserveRatio="true"/>
+    </VBox>
+
+    <VBox fx:id="props">
+        <VBox styleClass="fileProps">
+
+        </VBox>
+    </VBox>
+
+</HBox>

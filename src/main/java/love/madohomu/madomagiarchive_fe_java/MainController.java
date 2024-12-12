@@ -5,20 +5,22 @@ import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import love.madohomu.madomagiarchive_fe_java.components.FileItemComponent;
 import love.madohomu.madomagiarchive_fe_java.models.FileItem;
 import love.madohomu.madomagiarchive_fe_java.net.ApiClient;
+import love.madohomu.madomagiarchive_fe_java.views.FileViewer;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainController {
+    @FXML
+    private TextField mainSearchInput;
     @FXML
     private ScrollPane fileItemScrollContainer;
     @FXML
@@ -30,28 +32,72 @@ public class MainController {
     @FXML
     private CheckBox multiSelect;
     @FXML
-    private TextField mainSearchInput;
+    private Slider scaleSlider;
+    @FXML
+    public Label statusLabel;
 
-    private List<FileItemComponent> fileItemComponents = new ArrayList<>();
+    private final List<FileItemComponent> fileItemComponents = new ArrayList<>();
+
+    public boolean ctrlKeyPressed = false;
 
     @FXML
     public void initialize() {
-        fileItemContainer.prefWrapLengthProperty().bind(Bindings.add(-24, fileItemScrollContainer.widthProperty()));
+        fileItemContainer.prefWrapLengthProperty().bind(Bindings.subtract(fileItemScrollContainer.widthProperty(),24));
+
+        scaleSlider.valueProperty().addListener((observableValue, oldValue, newValue) -> {
+            fileItemComponents.forEach(FileItemComponent::updateImageHeight);
+        });
+
         reloadFiles();
+    }
+
+    public void afterInit() {
+        MainApplication.primaryScene.setOnKeyPressed(e -> {
+            ctrlKeyPressed = e.isControlDown();
+            multiSelect.setSelected(ctrlKeyPressed);
+
+            if (ctrlKeyPressed) {
+                switch (e.getCode()) {
+                    case R:
+                        reloadFiles();
+                        break;
+                }
+            } else {
+                switch (e.getCode()) {
+                    case F5:
+                        reloadFiles();
+                        break;
+                    case ENTER:
+                        viewFile();
+                        break;
+                }
+            }
+        });
+
+        MainApplication.primaryScene.setOnKeyReleased(e -> {
+            ctrlKeyPressed = e.isControlDown();
+            multiSelect.setSelected(ctrlKeyPressed);
+        });
     }
 
     @FXML
     public void reloadFiles() {
+        if (Platform.isFxApplicationThread()) {
+            setStatus("Refreshing...");
+        }
+
         ApiClient.getFileList(fileItems -> {
             Platform.runLater(() -> {
                 fileItemContainer.getChildren().clear();
                 fileItemComponents.clear();
 
                 fileItems.forEach(fileItem -> {
-                    FileItemComponent fileItemComponent = FileItemComponent.createInstance(fileItem, this);
+                    FileItemComponent fileItemComponent = FileItemComponent.CreateInstance(fileItem, this);
                     fileItemContainer.getChildren().add(fileItemComponent.getNode());
                     fileItemComponents.add(fileItemComponent);
                 });
+
+                setStatus("Refresh complete");
             });
         });
     }
@@ -82,16 +128,14 @@ public class MainController {
     }
 
     @FXML
-    public void onKeyDown(KeyEvent e) {
-        multiSelect.setSelected(e.isControlDown());
-        if (e.getCode() == KeyCode.DELETE) {
-            showDeleteConfirmation();
+    public void onScroll(ScrollEvent e) {
+        if (ctrlKeyPressed) {
+            if (e.getDeltaY() > 0) {
+                scaleSlider.increment();
+            } else {
+                scaleSlider.decrement();
+            }
         }
-    }
-
-    @FXML
-    public void onKeyUp(KeyEvent e) {
-        multiSelect.setSelected(e.isControlDown());
     }
 
     public boolean getMultiSelect() {
@@ -100,12 +144,27 @@ public class MainController {
 
     public List<FileItem> getSelectedFiles() {
         List<FileItem> selectedFiles = new ArrayList<>();
+
         fileItemComponents.forEach(fileItemComponent -> {
             if (fileItemComponent.getSelected()) {
                 selectedFiles.add(fileItemComponent.getFileItem());
             }
         });
+
         return selectedFiles;
+    }
+
+    public int getImageHeight() {
+        return (int)scaleSlider.getValue();
+    }
+
+    public void setStatus(String status) {
+        statusLabel.setText(status);
+    }
+
+    @FXML
+    public void viewFile() {
+        getSelectedFiles().forEach(FileViewer::ViewFile);
     }
 
     @FXML
@@ -116,8 +175,11 @@ public class MainController {
         }
 
         files.forEach(file -> {
+            setStatus("Uploading %s...".formatted(file.getName()));
+
             ApiClient.uploadFile(file, result -> {
                 if (result.code == 1) {
+                    Platform.runLater(() -> setStatus("Upload completed"));
                     reloadFiles();
                 } else {
                     Platform.runLater(() -> Utils.showAlert(result.message));
@@ -140,8 +202,11 @@ public class MainController {
         alert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
                 getSelectedFiles().forEach(x -> {
+                    setStatus("Deleting file %d...".formatted(x.id));
+
                     ApiClient.deleteFile(x.id, result -> {
                         if (result.code == 1) {
+                            Platform.runLater(() -> setStatus("Delete completed"));
                             reloadFiles();
                         } else {
                             Platform.runLater(() -> Utils.showAlert(result.message));

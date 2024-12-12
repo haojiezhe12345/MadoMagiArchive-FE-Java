@@ -9,7 +9,8 @@
       stylesheets="@../styles/main.css"
       fx:id="root"
       styleClass="fileItem"
-      onMousePressed="#onClick">
+      onMousePressed="#onMouseDown">
 
-    <ImageView fx:id="image"/>
+    <ImageView fx:id="image" preserveRatio="true"/>
+
 </HBox>

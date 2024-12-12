@@ -13,12 +13,12 @@ public class Utils {
     public static void openUrl(String url) {
         try {
             Desktop.getDesktop().browse(URI.create(url));
-        } catch (IOException ignored) {
-        }
+        } catch (IOException ignored) { }
     }
 
     public static List<File> chooseOpenFile() {
         FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
         return fileChooser.showOpenMultipleDialog(MainApplication.primaryStage);
     }
 

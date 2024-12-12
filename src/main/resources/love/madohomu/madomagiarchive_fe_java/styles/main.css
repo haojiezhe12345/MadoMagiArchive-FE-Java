@@ -1,10 +1,11 @@
 .root {
-    -fx-pref-width: 960;
-    -fx-pref-height: 640;
+    -fx-accent: #fbc;
+    -fx-focus-color: #fbc;
 }
 
-.main {
-    /*-fx-spacing: 8;*/
+.mainView {
+    -fx-pref-width: 960;
+    -fx-pref-height: 640;
 }
 
 .actionBar {
@@ -20,7 +21,7 @@
 }
 
 .fileItem {
-    -fx-padding: 6;
+    -fx-padding: 8;
     -fx-min-width: 150;
     -fx-alignment: center;
 }
@@ -31,7 +32,31 @@
 
 .fileItem.selected {
     -fx-background-color: rgba(255, 192, 208, 0.75);
-    -fx-padding: 5;
+    -fx-padding: 7;
     -fx-border-width: 1;
     -fx-border-color: rgba(220, 150, 170, 0.9);
 }
+
+.statusBar {
+    -fx-padding: 4;
+    -fx-spacing: 4;
+    -fx-alignment: center;
+}
+
+.fileViewer {
+    -fx-pref-height: 600;
+}
+
+.fileViewer #viewer {
+    -fx-alignment: center;
+}
+
+.fileViewer #viewer #imageViewer {
+
+}
+
+.fileViewer #props {
+    -fx-pref-width: 300;
+    -fx-background-color: rgba(0, 0, 0, 0.03);
+}
+

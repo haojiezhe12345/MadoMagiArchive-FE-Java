@@ -23,7 +23,7 @@ public class FileItemComponent {
     private MainController parent;
     private boolean selected = false;
 
-    public static FileItemComponent createInstance(FileItem fileItem, MainController parent) {
+    public static FileItemComponent CreateInstance(FileItem fileItem, MainController parent) {
         FXMLLoader loader = new FXMLLoader(FileItemComponent.class.getResource("FileItem.fxml"));
 
         FileItemComponent instance;
@@ -34,8 +34,8 @@ public class FileItemComponent {
             throw new RuntimeException(e);
         }
 
-        instance.setFileItem(fileItem);
         instance.parent = parent;
+        instance.setFileItem(fileItem);
         return instance;
     }
 
@@ -51,8 +51,11 @@ public class FileItemComponent {
         this.fileItem = fileItem;
 
         image.setImage(new Image("%s/files/%d/thumb".formatted(ApiClient.BaseUrl, fileItem.id)));
-        image.setFitHeight(200);
-        image.setPreserveRatio(true);
+        updateImageHeight();
+    }
+
+    public void updateImageHeight() {
+        image.setFitHeight(parent.getImageHeight());
     }
 
     public boolean getSelected() {
@@ -61,6 +64,7 @@ public class FileItemComponent {
 
     public void setSelected(boolean selected) {
         this.selected = selected;
+
         if (selected) {
             if (!root.getStyleClass().contains("selected")) {
                 root.getStyleClass().add("selected");
@@ -71,10 +75,17 @@ public class FileItemComponent {
     }
 
     @FXML
-    private void onClick(MouseEvent e) {
-        if (e.getButton() == MouseButton.SECONDARY && selected) {
+    private void onMouseDown(MouseEvent e) {
+        MouseButton button = e.getButton();
+
+        if (button == MouseButton.SECONDARY && selected) {
             return;
         }
+
+        if (button == MouseButton.PRIMARY && e.getClickCount() == 2) {
+            parent.viewFile();
+        }
+
         if (parent.getMultiSelect()) {
             setSelected(!selected);
         } else {

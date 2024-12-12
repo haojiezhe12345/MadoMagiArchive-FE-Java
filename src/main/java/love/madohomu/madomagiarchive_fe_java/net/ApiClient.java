@@ -63,8 +63,7 @@ public class ApiClient {
                     try {
                         T result = gson.fromJson(responseBody, type);
                         callback.accept(result);
-                    } catch (Exception ignored) {
-                    }
+                    } catch (Exception ignored) { }
                 }
             }
         });

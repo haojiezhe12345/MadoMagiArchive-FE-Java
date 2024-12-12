@@ -10,6 +10,7 @@ module love.madohomu.madomagiarchive_fe_java.madomagiarchivefejava {
 
     opens love.madohomu.madomagiarchive_fe_java to javafx.fxml;
     opens love.madohomu.madomagiarchive_fe_java.components to javafx.fxml;
+    opens love.madohomu.madomagiarchive_fe_java.views to javafx.fxml;
     opens love.madohomu.madomagiarchive_fe_java.models to com.google.gson;
 
     exports love.madohomu.madomagiarchive_fe_java;

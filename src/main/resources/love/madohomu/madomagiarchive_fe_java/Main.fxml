@@ -4,53 +4,52 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns="http://javafx.com/javafx/17.0.2-ea"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="love.madohomu.madomagiarchive_fe_java.MainController"
-      stylesheets="@styles/main.css"
-      styleClass="root"
-      onKeyPressed="#onKeyDown"
-      onKeyReleased="#onKeyUp">
+<VBox styleClass="root" stylesheets="@styles/main.css" xmlns="http://javafx.com/javafx/17.0.2-ea"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="love.madohomu.madomagiarchive_fe_java.MainController">
 
     <MenuBar>
         <Menu text="_File">
-            <MenuItem text="Select _all" onAction="#selectAllFiles"/>
-            <MenuItem text="Deselect all" onAction="#deselectFiles"/>
+            <MenuItem onAction="#selectAllFiles" text="Select all" accelerator="Shortcut+A"/>
+            <MenuItem onAction="#deselectFiles" text="Deselect all"/>
             <SeparatorMenuItem/>
-            <MenuItem text="_Download selected"/>
-            <MenuItem text="_Upload files..." onAction="#uploadFiles"/>
+            <MenuItem text="_Download selected" accelerator="Shortcut+D"/>
+            <MenuItem onAction="#uploadFiles" text="_Upload files..." accelerator="Shortcut+U"/>
             <SeparatorMenuItem/>
             <MenuItem onAction="#exit" text="E_xit"/>
         </Menu>
+
         <Menu text="_Edit">
-            <MenuItem text="Edit _details"/>
-            <MenuItem text="_Delete selected" onAction="#showDeleteConfirmation"/>
+            <MenuItem text="Edit _details" accelerator="Shortcut+E"/>
+            <MenuItem onAction="#showDeleteConfirmation" text="_Delete selected" accelerator="DELETE"/>
         </Menu>
+
         <Menu text="A_ccount">
             <MenuItem text="_Log in"/>
         </Menu>
+
         <Menu text="_Help">
-            <MenuItem text="Visit _website" onAction="#gotoWebsite"/>
-            <MenuItem text="View on _GitHub" onAction="#viewGitHub"/>
-            <MenuItem text="_About" onAction="#showAbout"/>
+            <MenuItem onAction="#gotoWebsite" text="Visit _website"/>
+            <MenuItem onAction="#viewGitHub" text="View on _GitHub"/>
+            <MenuItem onAction="#showAbout" text="_About"/>
         </Menu>
+
     </MenuBar>
 
-    <VBox styleClass="main" VBox.vgrow="ALWAYS">
+    <VBox styleClass="mainView" VBox.vgrow="ALWAYS">
         <HBox styleClass="actionBar">
-            <Button onAction="#reloadFiles" text="Refresh"/>
+            <Button onAction="#reloadFiles" text="Refresh (F5)"/>
             <Pane HBox.hgrow="ALWAYS"/>
-            <CheckBox text="Multi-select (hold Ctrl)" fx:id="multiSelect"/>
+            <CheckBox fx:id="multiSelect" text="Multi-select (hold Ctrl)"/>
             <TextField fx:id="mainSearchInput"/>
         </HBox>
 
-        <ScrollPane fx:id="fileItemScrollContainer" VBox.vgrow="ALWAYS" onMouseClicked="#onFileItemScrollContainerClick">
+        <ScrollPane fx:id="fileItemScrollContainer" onMouseClicked="#onFileItemScrollContainerClick" VBox.vgrow="ALWAYS">
 
-            <FlowPane fx:id="fileItemContainer">
-                <!-- Example image, `FileItemComponent` is used instead during execution -->
+            <FlowPane fx:id="fileItemContainer" onScroll="#onScroll">
+                <!-- Demo image, `FileItemComponent` is used here -->
                 <HBox styleClass="fileItem">
                     <ImageView>
-                        <Image url="https://haojiezhe12345.top:82/madohomu/archive/api/files/221/thumb"/>
+                        <Image url="@demo_image.jpg"/>
                     </ImageView>
                 </HBox>
             </FlowPane>
@@ -58,24 +57,30 @@
             <contextMenu>
                 <ContextMenu fx:id="fileItemContentMenu">
                     <items>
-                        <MenuItem text="View"/>
+                        <MenuItem text="View" onAction="#viewFile"/>
                         <MenuItem text="Edit details"/>
                         <MenuItem text="Download"/>
-                        <MenuItem text="Delete" onAction="#showDeleteConfirmation"/>
+                        <MenuItem onAction="#showDeleteConfirmation" text="Delete"/>
                     </items>
                 </ContextMenu>
 
                 <ContextMenu fx:id="fileItemBackgroundContentMenu">
                     <items>
-                        <MenuItem text="Select all" onAction="#selectAllFiles"/>
-                        <MenuItem text="Refresh" onAction="#reloadFiles"/>
-                        <MenuItem text="Upload files" onAction="#uploadFiles"/>
+                        <MenuItem onAction="#selectAllFiles" text="Select all"/>
+                        <MenuItem onAction="#reloadFiles" text="Refresh"/>
+                        <MenuItem onAction="#uploadFiles" text="Upload files"/>
                     </items>
                 </ContextMenu>
             </contextMenu>
 
         </ScrollPane>
-    </VBox>
 
+        <HBox styleClass="statusBar">
+            <Label text="Ready" fx:id="statusLabel"/>
+            <Pane HBox.hgrow="ALWAYS"/>
+            <Label text="Zoom:"/>
+            <Slider fx:id="scaleSlider" blockIncrement="30.0" majorTickUnit="30.0" max="200.0" min="50.0" minorTickCount="0" value="140.0"/>
+        </HBox>
+    </VBox>
 
 </VBox>
