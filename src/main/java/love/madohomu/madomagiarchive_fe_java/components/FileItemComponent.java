@@ -1,16 +1,15 @@
 package love.madohomu.madomagiarchive_fe_java.components;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.image.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import love.madohomu.madomagiarchive_fe_java.MainController;
+import love.madohomu.madomagiarchive_fe_java.Utils;
 import love.madohomu.madomagiarchive_fe_java.models.FileItem;
 import love.madohomu.madomagiarchive_fe_java.net.ApiClient;
 
-import java.io.IOException;
 
 public class FileItemComponent {
     @FXML
@@ -24,15 +23,7 @@ public class FileItemComponent {
     private boolean selected = false;
 
     public static FileItemComponent CreateInstance(FileItem fileItem, MainController parent) {
-        FXMLLoader loader = new FXMLLoader(FileItemComponent.class.getResource("FileItem.fxml"));
-
-        FileItemComponent instance;
-        try {
-            loader.load();
-            instance = loader.getController();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        FileItemComponent instance = Utils.createControllerFromFXML(FileItemComponent.class, "FileItem.fxml");
 
         instance.parent = parent;
         instance.setFileItem(fileItem);

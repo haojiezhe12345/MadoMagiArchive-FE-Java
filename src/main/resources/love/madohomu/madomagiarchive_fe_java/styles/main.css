@@ -48,6 +48,7 @@
 }
 
 .fileViewer #viewer {
+    -fx-min-width: 500;
     -fx-alignment: center;
 }
 
@@ -58,5 +59,9 @@
 .fileViewer #props {
     -fx-pref-width: 300;
     -fx-background-color: rgba(0, 0, 0, 0.03);
+}
+
+.fileViewer #props > * {
+    -fx-background-color: transparent;
 }
 

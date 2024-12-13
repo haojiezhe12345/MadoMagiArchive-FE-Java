@@ -51,20 +51,26 @@ public class ApiClient {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 String responseBody = response.body() != null ? response.body().string() : null;
+                T result;
+
                 if (response.isSuccessful()) {
                     try {
-                        T result = gson.fromJson(responseBody, type);
-                        callback.accept(result);
+                        result = gson.fromJson(responseBody, type);
                     } catch (Exception e) {
                         Platform.runLater(() -> Utils.showAlert("Could not parse the response text:\n%s".formatted(e), Alert.AlertType.ERROR));
+                        return;
                     }
+
                 } else {
                     Platform.runLater(() -> Utils.showAlert("Request failed with code %d:\n%s".formatted(response.code(), responseBody), Alert.AlertType.ERROR));
                     try {
-                        T result = gson.fromJson(responseBody, type);
-                        callback.accept(result);
-                    } catch (Exception ignored) { }
+                        result = gson.fromJson(responseBody, type);
+                    } catch (Exception ignored) {
+                        return;
+                    }
                 }
+
+                callback.accept(result);
             }
         });
     }

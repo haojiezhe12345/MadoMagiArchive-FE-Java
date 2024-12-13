@@ -2,17 +2,17 @@ package love.madohomu.madomagiarchive_fe_java.views;
 
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import love.madohomu.madomagiarchive_fe_java.Utils;
 import love.madohomu.madomagiarchive_fe_java.models.FileItem;
 import love.madohomu.madomagiarchive_fe_java.net.ApiClient;
 
-import java.io.IOException;
 
 public class FileViewer {
     @FXML
@@ -22,36 +22,24 @@ public class FileViewer {
     @FXML
     public ImageView imageViewer;
     @FXML
-    public VBox props;
+    public ScrollPane props;
 
     private Stage stage;
     private Scene scene;
     private FileItem fileItem;
 
     public static void ViewFile(FileItem fileItem) {
-        FXMLLoader loader = new FXMLLoader(FileViewer.class.getResource("FileViewer.fxml"));
-        Stage stage = new Stage();
-        Scene scene;
-        FileViewer fileViewer;
+        Utils.createStageFromFXML(FileViewer.class, "FileViewer.fxml", (loader, stage, scene, fileViewer) -> {
+            fileViewer.stage = stage;
+            fileViewer.scene = scene;
+            fileViewer.fileItem = fileItem;
+            fileViewer.afterInit();
 
-        try {
-            scene = new Scene(loader.load());
-            fileViewer = loader.getController();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return;
-        }
+            stage.setTitle("Viewing file #" + fileItem.id);
+            stage.show();
 
-        fileViewer.stage = stage;
-        fileViewer.scene = scene;
-        fileViewer.fileItem = fileItem;
-        fileViewer.afterInit();
-
-        stage.setTitle("Viewing file " + fileItem.id);
-        stage.setScene(scene);
-        stage.show();
-
-        fileViewer.afterShow();
+            fileViewer.afterShow();
+        });
     }
 
     public void afterInit() {
@@ -70,6 +58,7 @@ public class FileViewer {
     public void afterShow() {
         showFile(fileItem);
 
+        viewer.setMinWidth(0);
         imageViewer.fitWidthProperty().bind(Bindings.subtract(root.widthProperty(), props.prefWidthProperty()));
         imageViewer.fitHeightProperty().bind(root.heightProperty());
     }

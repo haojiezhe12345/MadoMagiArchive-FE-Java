@@ -42,7 +42,7 @@ public class MainController {
 
     @FXML
     public void initialize() {
-        fileItemContainer.prefWrapLengthProperty().bind(Bindings.subtract(fileItemScrollContainer.widthProperty(),24));
+        fileItemContainer.prefWrapLengthProperty().bind(Bindings.subtract(fileItemScrollContainer.widthProperty(), 24));
 
         scaleSlider.valueProperty().addListener((observableValue, oldValue, newValue) -> {
             fileItemComponents.forEach(FileItemComponent::updateImageHeight);
@@ -97,7 +97,7 @@ public class MainController {
                     fileItemComponents.add(fileItemComponent);
                 });
 
-                setStatus("Refresh complete");
+                setStatus("Refresh completed");
             });
         });
     }
@@ -142,16 +142,22 @@ public class MainController {
         return multiSelect.isSelected();
     }
 
-    public List<FileItem> getSelectedFiles() {
-        List<FileItem> selectedFiles = new ArrayList<>();
+    public List<FileItemComponent> getSelectedFileItemComponents() {
+        List<FileItemComponent> selected = new ArrayList<>();
 
         fileItemComponents.forEach(fileItemComponent -> {
             if (fileItemComponent.getSelected()) {
-                selectedFiles.add(fileItemComponent.getFileItem());
+                selected.add(fileItemComponent);
             }
         });
 
-        return selectedFiles;
+        return selected;
+    }
+
+    public List<FileItem> getSelectedFiles() {
+        return getSelectedFileItemComponents().stream()
+                .map(FileItemComponent::getFileItem)
+                .toList();
     }
 
     public int getImageHeight() {
@@ -179,7 +185,7 @@ public class MainController {
 
             ApiClient.uploadFile(file, result -> {
                 if (result.code == 1) {
-                    Platform.runLater(() -> setStatus("Upload completed"));
+                    Platform.runLater(() -> setStatus("Upload succeeded"));
                     reloadFiles();
                 } else {
                     Platform.runLater(() -> Utils.showAlert(result.message));
@@ -201,13 +207,16 @@ public class MainController {
 
         alert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
-                getSelectedFiles().forEach(x -> {
-                    setStatus("Deleting file %d...".formatted(x.id));
+                getSelectedFileItemComponents().forEach(x -> {
+                    setStatus("Deleting file #%d...".formatted(x.getFileItem().id));
 
-                    ApiClient.deleteFile(x.id, result -> {
+                    ApiClient.deleteFile(x.getFileItem().id, result -> {
                         if (result.code == 1) {
-                            Platform.runLater(() -> setStatus("Delete completed"));
-                            reloadFiles();
+                            Platform.runLater(() -> {
+                                setStatus("Delete succeeded");
+                                fileItemContainer.getChildren().remove(x.getNode());
+                                fileItemComponents.remove(x);
+                            });
                         } else {
                             Platform.runLater(() -> Utils.showAlert(result.message));
                         }

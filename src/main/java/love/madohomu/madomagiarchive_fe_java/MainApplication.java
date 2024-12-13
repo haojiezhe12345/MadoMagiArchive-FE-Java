@@ -1,30 +1,26 @@
 package love.madohomu.madomagiarchive_fe_java;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 
 public class MainApplication extends Application {
     public static Stage primaryStage;
     public static Scene primaryScene;
 
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage) {
         primaryStage = stage;
 
-        FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("Main.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
-        primaryScene = scene;
+        Utils.createSceneFromFXML(MainController.class, "Main.fxml", (loader, scene, controller) -> {
+            primaryScene = scene;
+            controller.afterInit();
 
-        MainController mainController = fxmlLoader.getController();
-        mainController.afterInit();
-
-        stage.setTitle("Archive of Madoka Magica");
-        stage.setScene(scene);
-        stage.show();
+            stage.setTitle("Archive of Madoka Magica");
+            stage.setScene(scene);
+            stage.show();
+        });
     }
 
     @Override

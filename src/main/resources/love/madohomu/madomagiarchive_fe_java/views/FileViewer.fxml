@@ -2,6 +2,7 @@
 
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.control.ScrollPane?>
 
 <HBox fx:id="root" styleClass="fileViewer" stylesheets="@../styles/main.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="love.madohomu.madomagiarchive_fe_java.views.FileViewer">
@@ -10,10 +11,10 @@
         <ImageView fx:id="imageViewer" preserveRatio="true"/>
     </VBox>
 
-    <VBox fx:id="props">
+    <ScrollPane fx:id="props">
         <VBox styleClass="fileProps">
 
         </VBox>
-    </VBox>
+    </ScrollPane>
 
 </HBox>
