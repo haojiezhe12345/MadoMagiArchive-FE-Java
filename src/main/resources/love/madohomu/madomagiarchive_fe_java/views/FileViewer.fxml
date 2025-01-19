@@ -1,20 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.control.ScrollPane?>
 
-<HBox fx:id="root" styleClass="fileViewer" stylesheets="@../styles/main.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="love.madohomu.madomagiarchive_fe_java.views.FileViewer">
+<HBox fx:id="root" prefHeight="600" stylesheets="@../styles/main.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="love.madohomu.madomagiarchive_fe_java.views.FileViewer">
 
-    <VBox fx:id="viewer" HBox.hgrow="ALWAYS">
-        <ImageView fx:id="imageViewer" preserveRatio="true"/>
+    <VBox fx:id="viewer" alignment="CENTER" prefWidth="500" HBox.hgrow="ALWAYS">
+        <ImageView fx:id="imageViewer" preserveRatio="true" />
     </VBox>
 
-    <ScrollPane fx:id="props">
-        <VBox styleClass="fileProps">
+    <VBox fx:id="props" prefWidth="300" style="-fx-background-color: #eee;">
+        <ScrollPane fitToHeight="true" fitToWidth="true" style="-fx-background-color: #eee;" VBox.vgrow="ALWAYS">
+            <VBox spacing="8" style="-fx-background-color: #eee; -fx-padding: 8;">
+                <Label fx:id="propTitle" />
+                <Label fx:id="propDescription" />
 
-        </VBox>
-    </ScrollPane>
+                <VBox>
+                    <Label text="Tags" />
+                    <FlowPane fx:id="propTags">
+
+                    </FlowPane>
+                </VBox>
+
+                <VBox>
+                    <Label text="Dimension" />
+                    <Label fx:id="propDimension" />
+                </VBox>
+
+                <VBox>
+                    <Label text="Size" />
+                    <Label fx:id="propSize" />
+                </VBox>
+
+                <VBox>
+                    <Label text="Uploaded" />
+                    <Label fx:id="propUploaded" />
+                </VBox>
+
+                <VBox>
+                    <Label text="Modified" />
+                    <Label fx:id="propModified" />
+                </VBox>
+
+                <VBox>
+                    <Label text="Source" />
+                    <Label fx:id="propSource" />
+                </VBox>
+            </VBox>
+        </ScrollPane>
+
+        <HBox styleClass="actionBar">
+            <Button text="Edit details" />
+        </HBox>
+    </VBox>
 
 </HBox>

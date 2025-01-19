@@ -18,7 +18,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainController {
+public class MainView {
     @FXML
     private TextField mainSearchInput;
     @FXML
@@ -51,7 +51,7 @@ public class MainController {
         reloadFiles();
     }
 
-    public void afterInit() {
+    public void beforeShow() {
         MainApplication.primaryScene.setOnKeyPressed(e -> {
             ctrlKeyPressed = e.isControlDown();
             multiSelect.setSelected(ctrlKeyPressed);

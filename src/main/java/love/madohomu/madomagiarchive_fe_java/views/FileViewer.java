@@ -3,9 +3,10 @@ package love.madohomu.madomagiarchive_fe_java.views;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -22,18 +23,35 @@ public class FileViewer {
     @FXML
     public ImageView imageViewer;
     @FXML
-    public ScrollPane props;
+    public VBox props;
+
+    @FXML
+    public Label propTitle;
+    @FXML
+    public Label propDescription;
+    @FXML
+    public FlowPane propTags;
+    @FXML
+    public Label propDimension;
+    @FXML
+    public Label propSize;
+    @FXML
+    public Label propUploaded;
+    @FXML
+    public Label propModified;
+    @FXML
+    public Label propSource;
 
     private Stage stage;
     private Scene scene;
     private FileItem fileItem;
 
     public static void ViewFile(FileItem fileItem) {
-        Utils.createStageFromFXML(FileViewer.class, "FileViewer.fxml", (loader, stage, scene, fileViewer) -> {
+        Utils.createStageFromFXML(FileViewer.class, (loader, stage, scene, fileViewer) -> {
             fileViewer.stage = stage;
             fileViewer.scene = scene;
             fileViewer.fileItem = fileItem;
-            fileViewer.afterInit();
+            fileViewer.beforeShow();
 
             stage.setTitle("Viewing file #" + fileItem.id);
             stage.show();
@@ -42,7 +60,7 @@ public class FileViewer {
         });
     }
 
-    public void afterInit() {
+    public void beforeShow() {
         scene.setOnKeyPressed(e -> {
             switch (e.getCode()) {
                 case ESCAPE:

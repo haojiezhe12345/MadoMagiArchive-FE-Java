@@ -1,6 +1,6 @@
 .root {
     -fx-accent: #fbc;
-    -fx-focus-color: #fbc;
+    /*-fx-focus-color: #fbc;*/
 }
 
 .mainView {
@@ -43,25 +43,13 @@
     -fx-alignment: center;
 }
 
-.fileViewer {
-    -fx-pref-height: 600;
-}
-
-.fileViewer #viewer {
-    -fx-min-width: 500;
-    -fx-alignment: center;
-}
-
-.fileViewer #viewer #imageViewer {
-
-}
-
-.fileViewer #props {
+.fileProps {
     -fx-pref-width: 300;
-    -fx-background-color: rgba(0, 0, 0, 0.03);
+    -fx-pref-height: 500;
 }
 
-.fileViewer #props > * {
-    -fx-background-color: transparent;
+.fileProps .propsEditor {
+    -fx-padding: 8;
+    -fx-hgap: 8;
+    -fx-vgap: 8;
 }
-

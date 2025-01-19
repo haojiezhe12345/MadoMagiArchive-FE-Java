@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 
 <VBox styleClass="root" stylesheets="@styles/main.css" xmlns="http://javafx.com/javafx/17.0.2-ea"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="love.madohomu.madomagiarchive_fe_java.MainController">
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="love.madohomu.madomagiarchive_fe_java.MainView">
 
     <MenuBar>
         <Menu text="_File">

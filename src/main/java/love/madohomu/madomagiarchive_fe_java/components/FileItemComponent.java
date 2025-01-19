@@ -5,7 +5,7 @@ import javafx.scene.image.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import love.madohomu.madomagiarchive_fe_java.MainController;
+import love.madohomu.madomagiarchive_fe_java.MainView;
 import love.madohomu.madomagiarchive_fe_java.Utils;
 import love.madohomu.madomagiarchive_fe_java.models.FileItem;
 import love.madohomu.madomagiarchive_fe_java.net.ApiClient;
@@ -19,11 +19,11 @@ public class FileItemComponent {
     private ImageView image;
 
     private FileItem fileItem;
-    private MainController parent;
+    private MainView parent;
     private boolean selected = false;
 
-    public static FileItemComponent CreateInstance(FileItem fileItem, MainController parent) {
-        FileItemComponent instance = Utils.createControllerFromFXML(FileItemComponent.class, "FileItem.fxml");
+    public static FileItemComponent CreateInstance(FileItem fileItem, MainView parent) {
+        FileItemComponent instance = Utils.createControllerFromFXML(FileItemComponent.class);
 
         instance.parent = parent;
         instance.setFileItem(fileItem);

@@ -53,34 +53,36 @@ public class Utils {
         showAlert("", text, Alert.AlertType.INFORMATION);
     }
 
-    public static <T> FXMLLoader createLoaderFromFXML(Class<T> tClass, String fxml) {
-        FXMLLoader loader = new FXMLLoader(tClass.getResource(fxml));
+    public static <T> FXMLLoader createLoaderFromFXML(Class<T> tClass) {
+        String fxmlPath = tClass.getSimpleName() + ".fxml";
+        FXMLLoader loader = new FXMLLoader(tClass.getResource(fxmlPath));
         try {
             loader.load();
-        } catch (IOException e) {
+        } catch (Exception e) {
+            System.err.println("Could not load FXML file: " + fxmlPath);
             throw new RuntimeException(e);
         }
         return loader;
     }
 
-    public static <T> T createControllerFromFXML(Class<T> tClass, String fxml) {
-        return createLoaderFromFXML(tClass, fxml).getController();
+    public static <T> T createControllerFromFXML(Class<T> tClass) {
+        return createLoaderFromFXML(tClass).getController();
     }
 
-    public static <T> void createControllerFromFXML(Class<T> tClass, String fxml, BiConsumer<FXMLLoader, T> callback) {
-        FXMLLoader loader = createLoaderFromFXML(tClass, fxml);
+    public static <T> void createControllerFromFXML(Class<T> tClass, BiConsumer<FXMLLoader, T> callback) {
+        FXMLLoader loader = createLoaderFromFXML(tClass);
         callback.accept(loader, loader.getController());
     }
 
-    public static <T> void createSceneFromFXML(Class<T> tClass, String fxml, TriConsumer<FXMLLoader, Scene, T> callback) {
-        createControllerFromFXML(tClass, fxml, (loader, controller) -> {
+    public static <T> void createSceneFromFXML(Class<T> tClass, TriConsumer<FXMLLoader, Scene, T> callback) {
+        createControllerFromFXML(tClass, (loader, controller) -> {
             Scene scene = new Scene(loader.getRoot());
             callback.accept(loader, scene, controller);
         });
     }
 
-    public static <T> void createStageFromFXML(Class<T> tClass, String fxml, QuadConsumer<FXMLLoader, Stage, Scene, T> callback) {
-        createSceneFromFXML(tClass, fxml, (loader, scene, controller) -> {
+    public static <T> void createStageFromFXML(Class<T> tClass, QuadConsumer<FXMLLoader, Stage, Scene, T> callback) {
+        createSceneFromFXML(tClass, (loader, scene, controller) -> {
             Stage stage = new Stage();
             stage.setScene(scene);
             callback.accept(loader, stage, scene, controller);

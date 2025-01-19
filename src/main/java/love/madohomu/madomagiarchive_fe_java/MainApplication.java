@@ -13,9 +13,9 @@ public class MainApplication extends Application {
     public void start(Stage stage) {
         primaryStage = stage;
 
-        Utils.createSceneFromFXML(MainController.class, "Main.fxml", (loader, scene, controller) -> {
+        Utils.createSceneFromFXML(MainView.class, (loader, scene, controller) -> {
             primaryScene = scene;
-            controller.afterInit();
+            controller.beforeShow();
 
             stage.setTitle("Archive of Madoka Magica");
             stage.setScene(scene);
