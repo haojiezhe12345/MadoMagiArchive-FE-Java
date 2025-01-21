@@ -12,14 +12,14 @@
             <MenuItem onAction="#selectAllFiles" text="Select all" accelerator="Shortcut+A"/>
             <MenuItem onAction="#deselectFiles" text="Deselect all"/>
             <SeparatorMenuItem/>
-            <MenuItem text="_Download selected" accelerator="Shortcut+D"/>
+            <MenuItem onAction="#downloadFiles" text="_Download selected" accelerator="Shortcut+D"/>
             <MenuItem onAction="#uploadFiles" text="_Upload files..." accelerator="Shortcut+U"/>
             <SeparatorMenuItem/>
             <MenuItem onAction="#exit" text="E_xit"/>
         </Menu>
 
         <Menu text="_Edit">
-            <MenuItem text="Edit _details" accelerator="Shortcut+E"/>
+            <MenuItem onAction="#editDetail" text="Edit _details" accelerator="Shortcut+E"/>
             <MenuItem onAction="#showDeleteConfirmation" text="_Delete selected" accelerator="DELETE"/>
         </Menu>
 
@@ -58,9 +58,9 @@
                 <ContextMenu fx:id="fileItemContentMenu">
                     <items>
                         <MenuItem text="View" onAction="#viewFile"/>
-                        <MenuItem text="Edit details"/>
-                        <MenuItem text="Download"/>
-                        <MenuItem onAction="#showDeleteConfirmation" text="Delete"/>
+                        <MenuItem text="Edit details" onAction="#editDetail"/>
+                        <MenuItem text="Download" onAction="#downloadFiles"/>
+                        <MenuItem text="Delete" onAction="#showDeleteConfirmation"/>
                     </items>
                 </ContextMenu>
 

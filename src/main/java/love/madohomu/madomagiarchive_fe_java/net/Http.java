@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.function.Consumer;
 
@@ -37,7 +38,7 @@ public class Http {
         return new Request.Builder().url(ApiClient.BaseUrl + path);
     }
 
-    private static <T> void Request(Request request, Consumer<T> callback, Type type) {
+    private static void AsyncRequest(Request request, Consumer<Response> callback) {
         HttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
@@ -45,35 +46,70 @@ public class Http {
             }
 
             @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                String responseBody = response.body() != null ? response.body().string() : null;
-                T result;
+            public void onResponse(@NotNull Call call, @NotNull Response response) {
+                callback.accept(response);
+            }
+        });
+    }
 
-                if (response.isSuccessful()) {
-                    try {
-                        result = gson.fromJson(responseBody, type);
-                    } catch (Exception e) {
-                        Platform.runLater(() -> Utils.showAlert("Could not parse the response text:\n%s".formatted(e), Alert.AlertType.ERROR));
-                        return;
-                    }
+    private static <T> void RequestJson(Request request, Consumer<T> callback, Type type) {
+        AsyncRequest(request, response -> {
+            String responseBody;
+            try {
+                responseBody = response.body() != null ? response.body().string() : null;
+            } catch (IOException e) {
+                Platform.runLater(() -> Utils.showAlert("Failed to read response body:\n%s".formatted(e), Alert.AlertType.ERROR));
+                return;
+            }
+            T result;
 
-                } else {
-                    Platform.runLater(() -> Utils.showAlert("Request failed with code %d:\n%s".formatted(response.code(), responseBody), Alert.AlertType.ERROR));
-                    try {
-                        result = gson.fromJson(responseBody, type);
-                    } catch (Exception ignored) {
-                        return;
-                    }
+            if (response.isSuccessful()) {
+                try {
+                    result = gson.fromJson(responseBody, type);
+                } catch (Exception e) {
+                    Platform.runLater(() -> Utils.showAlert("Could not parse the response text:\n%s".formatted(e), Alert.AlertType.ERROR));
+                    return;
                 }
 
-                callback.accept(result);
+            } else {
+                Platform.runLater(() -> Utils.showAlert("Request failed with code %d:\n%s".formatted(response.code(), responseBody), Alert.AlertType.ERROR));
+                try {
+                    result = gson.fromJson(responseBody, type);
+                } catch (Exception ignored) {
+                    return;
+                }
             }
+
+            callback.accept(result);
         });
     }
 
     public static <T> void Get(String path, Consumer<T> callback, Type type) {
         Request request = newRequestBuilderWithBaseUrl(path).build();
-        Request(request, callback, type);
+        RequestJson(request, callback, type);
+    }
+
+    public static void GetFile(String path, Consumer<InputStream> callback) {
+        Request request = newRequestBuilderWithBaseUrl(path).build();
+        AsyncRequest(request, response -> {
+            callback.accept(response.body() != null ? response.body().byteStream() : null);
+        });
+    }
+
+    public static <T> void PostJson(String path, Object obj, Type typeObj, Consumer<T> callback, Type type) {
+        RequestBody body = RequestBody.create(gson.toJson(obj, typeObj), MediaType.parse("application/json; charset=utf-8"));
+        Request request = newRequestBuilderWithBaseUrl(path)
+                .post(body)
+                .build();
+        RequestJson(request, callback, type);
+    }
+
+    public static <T> void PutJson(String path, Object obj, Type typeObj, Consumer<T> callback, Type type) {
+        RequestBody body = RequestBody.create(gson.toJson(obj, typeObj), MediaType.parse("application/json; charset=utf-8"));
+        Request request = newRequestBuilderWithBaseUrl(path)
+                .put(body)
+                .build();
+        RequestJson(request, callback, type);
     }
 
     public static <T> void PostFile(String path, File file, Consumer<T> callback, Type type) {
@@ -84,11 +120,11 @@ public class Http {
         Request request = newRequestBuilderWithBaseUrl(path)
                 .post(formBody)
                 .build();
-        Request(request, callback, type);
+        RequestJson(request, callback, type);
     }
 
     public static <T> void Delete(String path, Consumer<T> callback, Type type) {
         Request request = newRequestBuilderWithBaseUrl(path).delete().build();
-        Request(request, callback, type);
+        RequestJson(request, callback, type);
     }
 }

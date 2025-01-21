@@ -4,6 +4,7 @@ import com.google.gson.reflect.TypeToken;
 import love.madohomu.madomagiarchive_fe_java.models.*;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -14,8 +15,20 @@ public class ApiClient {
         Http.Get("files", callback, new TypeToken<List<FileItem>>() { }.getType());
     }
 
-    public static void uploadFile(File file, Consumer<ApiResponse<List<Integer>>> callback) {
-        Http.PostFile("files", file, callback, new TypeToken<ApiResponse<List<Integer>>>() { }.getType());
+    public static void getFileDetail(int id, Consumer<FileItem> callback) {
+        Http.Get("files/%d/detail".formatted(id), callback, new TypeToken<FileItem>() { }.getType());
+    }
+
+    public static void downloadFile(int id, Consumer<InputStream> callback) {
+        Http.GetFile("files/%d".formatted(id), callback);
+    }
+
+    public static void updateFileDetail(FilesUpdateDTO filesUpdateDTO, Consumer<ApiResponse<int[]>> callback) {
+        Http.PutJson("files", filesUpdateDTO, FilesUpdateDTO.class, callback, new TypeToken<ApiResponse<int[]>>() { }.getType());
+    }
+
+    public static void uploadFile(File file, Consumer<ApiResponse<int[]>> callback) {
+        Http.PostFile("files", file, callback, new TypeToken<ApiResponse<int[]>>() { }.getType());
     }
 
     public static void deleteFile(int id, Consumer<ApiResponse<Object>> callback) {

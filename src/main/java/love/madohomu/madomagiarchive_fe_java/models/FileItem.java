@@ -1,7 +1,6 @@
 package love.madohomu.madomagiarchive_fe_java.models;
 
 import java.util.Date;
-import java.util.List;
 
 public class FileItem {
     public int id;
@@ -17,5 +16,5 @@ public class FileItem {
     public long size;
     public Date dateCreated;
     public Date dateModified;
-    public List<Tag> tags;
+    public Tag[] tags;
 }

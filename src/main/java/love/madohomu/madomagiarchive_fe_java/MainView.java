@@ -10,13 +10,20 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import love.madohomu.madomagiarchive_fe_java.components.FileItemComponent;
+import love.madohomu.madomagiarchive_fe_java.components.FileProps;
 import love.madohomu.madomagiarchive_fe_java.models.FileItem;
 import love.madohomu.madomagiarchive_fe_java.net.ApiClient;
 import love.madohomu.madomagiarchive_fe_java.views.FileViewer;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class MainView {
     @FXML
@@ -171,6 +178,79 @@ public class MainView {
     @FXML
     public void viewFile() {
         getSelectedFiles().forEach(FileViewer::ViewFile);
+    }
+
+    @FXML
+    public void editDetail() {
+        getSelectedFiles().forEach(FileProps::EditFile);
+    }
+
+    @FXML
+    public void downloadFiles() {
+        String saveDir = Utils.chooseSaveDir();
+        List<FileItem> files = getSelectedFiles();
+
+        class ProgressCounter {
+            public int success = 0;
+            public int fail = 0;
+            public final int total = files.size();
+
+            final Lock lock = new ReentrantLock();
+
+            public void addFail() {
+                lock.lock();
+                fail++;
+                showProgress();
+                lock.unlock();
+            }
+
+            public void addSuccess() {
+                lock.lock();
+                success++;
+                showProgress();
+                lock.unlock();
+            }
+
+            private void showProgress() {
+                Platform.runLater(() -> {
+                    setStatus("Downloading files: %d/%d completed, %d failed".formatted(success, total, fail));
+                });
+            }
+        }
+
+        ProgressCounter counter = new ProgressCounter();
+
+        for (FileItem fileItem : files) {
+            ApiClient.downloadFile(fileItem.id, stream -> {
+                if (stream == null) {
+                    counter.addFail();
+                    return;
+                }
+
+                String savePath = null;
+
+                for (int i = 0; ; i++) {
+                    String path = "%s/MadoMagiArchive-%d%s%s".formatted(
+                            saveDir,
+                            fileItem.id,
+                            i == 0 ? "" : " (%d)".formatted(i),
+                            Utils.getFileExtension(fileItem.file)
+                    );
+                    if (!new File(path).isFile()) {
+                        savePath = path;
+                        break;
+                    }
+                }
+
+                try {
+                    Files.copy(stream, Paths.get(savePath), StandardCopyOption.REPLACE_EXISTING);
+                    counter.addSuccess();
+                } catch (IOException e) {
+                    counter.addFail();
+                    throw new RuntimeException(e);
+                }
+            });
+        }
     }
 
     @FXML

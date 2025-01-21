@@ -13,45 +13,52 @@
     <VBox fx:id="props" prefWidth="300" style="-fx-background-color: #eee;">
         <ScrollPane fitToHeight="true" fitToWidth="true" style="-fx-background-color: #eee;" VBox.vgrow="ALWAYS">
             <VBox spacing="8" style="-fx-background-color: #eee; -fx-padding: 8;">
-                <Label fx:id="propTitle" />
-                <Label fx:id="propDescription" />
+                <VBox>
+                    <Label fx:id="propTitle" />
+                    <Label fx:id="propDescription" />
+                </VBox>
 
                 <VBox>
-                    <Label text="Tags" />
+                    <Label text="Tags:" />
                     <FlowPane fx:id="propTags">
 
                     </FlowPane>
                 </VBox>
 
                 <VBox>
-                    <Label text="Dimension" />
+                    <Label text="Type:" />
+                    <Label fx:id="propType" />
+                </VBox>
+
+                <VBox>
+                    <Label text="Dimension:" />
                     <Label fx:id="propDimension" />
                 </VBox>
 
                 <VBox>
-                    <Label text="Size" />
+                    <Label text="Size:" />
                     <Label fx:id="propSize" />
                 </VBox>
 
                 <VBox>
-                    <Label text="Uploaded" />
+                    <Label text="Uploaded:" />
                     <Label fx:id="propUploaded" />
                 </VBox>
 
                 <VBox>
-                    <Label text="Modified" />
+                    <Label text="Modified:" />
                     <Label fx:id="propModified" />
                 </VBox>
 
                 <VBox>
-                    <Label text="Source" />
+                    <Label text="Source:" />
                     <Label fx:id="propSource" />
                 </VBox>
             </VBox>
         </ScrollPane>
 
         <HBox styleClass="actionBar">
-            <Button text="Edit details" />
+            <Button text="_Edit details" onAction="#editDetail"/>
         </HBox>
     </VBox>
 

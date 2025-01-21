@@ -1,17 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="love.madohomu.madomagiarchive_fe_java.components.FileProps"
-            stylesheets="@../styles/main.css"
-            styleClass="fileProps">
+<VBox stylesheets="@../styles/main.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="love.madohomu.madomagiarchive_fe_java.components.FileProps">
 
+    <ScrollPane VBox.vgrow="ALWAYS">
+        <GridPane hgap="8.0" vgap="8.0">
+            <Label text="Title"/>
+            <TextField fx:id="propTitle" GridPane.columnIndex="1"/>
 
+            <Label text="Description" GridPane.rowIndex="1"/>
+            <TextArea fx:id="propDescription" prefHeight="60" prefWidth="200" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+            <Label text="R-18" GridPane.rowIndex="2"/>
+            <CheckBox fx:id="propR18" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+            <Label text="Type" GridPane.rowIndex="3"/>
+            <TextField fx:id="propType" GridPane.columnIndex="1" GridPane.rowIndex="3" disable="true"/>
+
+            <Label text="Source" GridPane.rowIndex="4"/>
+            <TextArea fx:id="propSource" prefHeight="40" prefWidth="200" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+
+            <Label text="Tags" GridPane.rowIndex="5"/>
+
+            <padding>
+                <Insets bottom="8.0" left="8.0" right="8.0" top="8.0"/>
+            </padding>
+        </GridPane>
+    </ScrollPane>
+
+    <HBox styleClass="actionBar">
+        <Button fx:id="saveBtn" text="_Save" onAction="#save"/>
+        <Button fx:id="closeBtn" text="_Close" onAction="#close"/>
+    </HBox>
 
 </VBox>

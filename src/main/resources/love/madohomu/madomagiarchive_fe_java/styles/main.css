@@ -42,14 +42,3 @@
     -fx-spacing: 4;
     -fx-alignment: center;
 }
-
-.fileProps {
-    -fx-pref-width: 300;
-    -fx-pref-height: 500;
-}
-
-.fileProps .propsEditor {
-    -fx-padding: 8;
-    -fx-hgap: 8;
-    -fx-vgap: 8;
-}
