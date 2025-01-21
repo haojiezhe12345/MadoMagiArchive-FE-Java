@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 
 <VBox stylesheets="@../styles/main.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="love.madohomu.madomagiarchive_fe_java.components.FileProps">
+      fx:controller="love.madohomu.madomagiarchive_fe_java.views.FileProps">
 
     <ScrollPane VBox.vgrow="ALWAYS">
         <GridPane hgap="8.0" vgap="8.0">

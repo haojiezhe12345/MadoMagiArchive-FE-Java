@@ -12,7 +12,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import love.madohomu.madomagiarchive_fe_java.Utils;
-import love.madohomu.madomagiarchive_fe_java.components.FileProps;
 import love.madohomu.madomagiarchive_fe_java.models.FileItem;
 import love.madohomu.madomagiarchive_fe_java.net.ApiClient;
 

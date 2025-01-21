@@ -10,7 +10,7 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import love.madohomu.madomagiarchive_fe_java.components.FileItemComponent;
-import love.madohomu.madomagiarchive_fe_java.components.FileProps;
+import love.madohomu.madomagiarchive_fe_java.views.FileProps;
 import love.madohomu.madomagiarchive_fe_java.models.FileItem;
 import love.madohomu.madomagiarchive_fe_java.net.ApiClient;
 import love.madohomu.madomagiarchive_fe_java.views.FileViewer;

@@ -1,4 +1,4 @@
-package love.madohomu.madomagiarchive_fe_java.components;
+package love.madohomu.madomagiarchive_fe_java.views;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -14,9 +14,7 @@ import love.madohomu.madomagiarchive_fe_java.Utils;
 import love.madohomu.madomagiarchive_fe_java.models.FileItem;
 import love.madohomu.madomagiarchive_fe_java.models.FilesUpdateDTO;
 import love.madohomu.madomagiarchive_fe_java.net.ApiClient;
-import love.madohomu.madomagiarchive_fe_java.views.FileViewer;
 
-import javax.swing.filechooser.FileView;
 import java.util.Arrays;
 
 public class FileProps {
