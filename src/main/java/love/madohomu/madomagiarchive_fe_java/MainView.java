@@ -188,6 +188,8 @@ public class MainView {
     @FXML
     public void downloadFiles() {
         String saveDir = Utils.chooseSaveDir();
+        if (saveDir == null) return;
+
         List<FileItem> files = getSelectedFiles();
 
         class ProgressCounter {

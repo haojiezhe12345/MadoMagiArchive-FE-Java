@@ -1,0 +1,1 @@
+java --module-path libs --add-modules javafx.controls,javafx.fxml -jar MadoMagiArchive-FE-Java.jar

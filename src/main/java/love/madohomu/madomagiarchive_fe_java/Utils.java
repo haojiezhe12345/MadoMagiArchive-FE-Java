@@ -41,7 +41,8 @@ public class Utils {
     public static String chooseSaveDir() {
         DirectoryChooser chooser = new DirectoryChooser();
         chooser.setInitialDirectory(new File(System.getProperty("user.home")));
-        return chooser.showDialog(MainApplication.primaryStage).getAbsolutePath();
+        File file = chooser.showDialog(MainApplication.primaryStage);
+        return file != null ? file.getAbsolutePath() : null;
     }
 
     public static String getFileExtension(String filename) {
